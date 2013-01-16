@@ -1,0 +1,52 @@
+
+#SerieEpisodesPlugin  {
+	height: 1000px;
+	min-width: 500px;
+}
+
+.SerieEpisodesPlugin_Episode  {
+	padding: 5px;	
+	height: 91px;
+	
+}
+
+.SerieEpisodesPlugin_Episode_Published.odd {
+	background-color: #EFF7F9;	
+}
+
+.SerieEpisodesPlugin_Episode_Published.even {
+	background-color: #F7FBFC;	
+}
+
+.SerieEpisodesPlugin_Episode_Pending  {
+	background-color: rgb(255,204,102);	
+}
+
+.SerieEpisodesPlugin_Episode_NotPublished  {
+	background-color: rgb(255,165,161);
+}
+
+
+.SerieEpisodesPlugin_Episode_Left  {
+	display: block;
+	overflow: hiden;
+	float: left;
+	margin-right: 5px;
+}
+
+.SerieEpisodesPlugin_Episode_Right  {
+	display: block;
+	overflow: hiden;
+}
+
+
+.SerieEpisodesPlugin_Episode_Title{
+	font-weight:bold;
+}
+
+.SerieEpisodesPlugin_Episode_Author{
+}
+
+.SerieEpisodesPlugin_Episode_Date{
+}
+
