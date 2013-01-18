@@ -1,9 +1,26 @@
 body {
 	height: 100%;
+	font-family: Verdana, sans-serif;
+	font-size: 12px;
 }
 
 h2 {
-	font-family: Verdana, sans-sherif;
+}
+
+a {
+	color: #636363;
+}
+
+a:hover {
+	color: #a4a4a4;
+}
+
+a:active {
+	color: #3d3d3d;
+}
+
+a:visited {
+	color: #636363;
 }
 
 .video {

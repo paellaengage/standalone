@@ -6,6 +6,7 @@
 	display:block;
 	width:40px;
 	height:37px;
+	background-size:200%;
 	background-image:url(../resources/images/fullscreen_button.png);
 }
 
@@ -20,6 +21,7 @@
 	height:37px;
 	right:40px;
 	background-image:url(../resources/images/fullscreen_button.png);
+	background-size:200%;
 	background-position:-80px 0px;
 }
 
@@ -65,6 +67,7 @@
 	width:40px;
 	height:37px;
 	right:0px;
+	background-size:200%;
 	background-image:url(../resources/images/fullscreen_button.png);
 }
 
@@ -219,6 +222,30 @@
 	background-position:-40px 0px;
 }
 
+#paellaExtended_tabBar_searchPlugin_searchbar {
+    height: 30px;
+    display:block;
+}
+
+#paellaExtended_tabBar_searchPlugin_loading {
+    background-image: url("pluginloading.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 11px;
+    display:block;
+}
+
+.searchPlugin_searchBar_revelanceInfo{
+	text-align: center; 
+	margin-left: 1px; 
+	margin-right: 1px; 
+	border: 0px solid black
+}
+
+
+
+
 
 #SerieEpisodesPlugin  {
 	height: 1000px;
@@ -346,6 +373,39 @@
 
 .socialButtonLink:hover {
 	background-position: -40px 0px;
+}
+
+.showUserViewStatsButton {
+	position:absolute;
+	display:block;
+	width:40px;
+	height:37px;
+	background-size:300%;
+	background-image:url(../resources/images/statistics_icon.png);
+}
+
+.showUserViewStatsButton:hover {
+	background-position:-40px 0px;
+}
+
+.showUserViewStatsButton_active {
+	position:absolute;
+	display:block;
+	width:40px;
+	height:37px;
+	right:40px;
+	background-size:300%;
+	background-image:url(../resources/images/statistics_icon.png);
+	background-position:-80px 0px;
+}
+
+#playerContainer_controls_playback_showuserviewstats_container {
+	position:absolute;
+	bottom:37px;
+	width:100%;
+	height:25px;
+	background-size: 200%;
+	background-image:url(../resources/images/playback_bkg.png);
 }
 
 .showViewModeButton {
