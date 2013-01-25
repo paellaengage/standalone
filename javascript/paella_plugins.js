@@ -1421,10 +1421,13 @@ new paella.plugins.userTrackingViewerPlugIn();
 
 
 
+<<<<<<< HEAD
 paella.plugins.events.userTrackingCollector = {
 	logEvent:'userTrackingCollector:logEvent'
 };
 
+=======
+>>>>>>> 43ab0b004555dc27d52b3ad103d7da8ad1646a6d
 paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlugin,{
 	INTERVAL_LENGTH:5,
 	detailedLogging:false,
@@ -1441,8 +1444,11 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 				thisClass.detailedLogging = true;
 				thisClass.heartbeatTimer = new Timer(function(timer) {thisClass.addEvent('HEARTBEAT'); }, 30000);
 				thisClass.heartbeatTimer.repeat = true;
+<<<<<<< HEAD
 				//--------------------------------------------------
 				$(window).resize(function(event) { thisClass.onResize(); });
+=======
+>>>>>>> 43ab0b004555dc27d52b3ad103d7da8ad1646a6d
 			}
 		},'',false,'GET');
 	},
@@ -1452,8 +1458,12 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 				paella.events.pause,
 				paella.events.seekTo,
 				paella.events.seekToTime,
+<<<<<<< HEAD
 				paella.events.timeUpdate,
 				paella.plugins.events.userTrackingCollector
+=======
+				paella.events.timeUpdate
+>>>>>>> 43ab0b004555dc27d52b3ad103d7da8ad1646a6d
 		];
 	},
 	
@@ -1463,6 +1473,7 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 		switch (eventType) {
 			case paella.events.play:
 				this.addEvent('PLAY');
+<<<<<<< HEAD
 				break;
 			case paella.events.pause:
 				this.addEvent('PAUSE');
@@ -1470,10 +1481,22 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 			case paella.events.seekTo:
 			case paella.events.seekToTime:
 				this.addEvent('SEEK');
+=======
+				//this.startFootprintTimer();
+				break;
+			case paella.events.pause:
+				this.addEvent('PAUSE');
+				//this.pauseFootprintTimer();
+				break;
+			case paella.events.seekTo:
+			case paella.events.seekToTime:
+				this.addEvent('SEEK');			
+>>>>>>> 43ab0b004555dc27d52b3ad103d7da8ad1646a6d
 				break;
 			case paella.events.timeUpdate:
 				this.onTimeUpdate();
 				break;
+<<<<<<< HEAD
 			case paella.plugins.events.userTrackingCollector:
 				//document.fire(paella.plugins.events.userTrackingCollector, {profileName:profileName});
 				var eventName = params.eventName;
@@ -1484,6 +1507,8 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 					console.log("Warning: eventName parameter nof found. Review your code");
 				}
 				break;
+=======
+>>>>>>> 43ab0b004555dc27d52b3ad103d7da8ad1646a6d
 		}
 	},
 	
@@ -1499,12 +1524,15 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 		return "userTrackingCollectorPlugIn";
 	},
 	
+<<<<<<< HEAD
 	onResize:function() {
 		var w = $(window);
 		var label = "RESIZE-TO-"+w.width()+"x"+w.height();
 		this.addEvent(label);
 	},
 	
+=======
+>>>>>>> 43ab0b004555dc27d52b3ad103d7da8ad1646a6d
 	onTimeUpdate:function() {
 		var videoCurrentTime = Math.round(paella.player.videoContainer.currentTime() + paella.player.videoContainer.trimStart());		
 		if (this.inPosition <= videoCurrentTime && videoCurrentTime <= this.inPosition + this.INTERVAL_LENGTH) {
@@ -1527,7 +1555,11 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 			
 			var thisClass = this;
 			var restEndpoint = paella.player.config.restServer.url + "usertracking/"; 
+<<<<<<< HEAD
 			//console.log("Logging event: " + eventType + "("+this.inPosition + ", " + this.outPosition +")");
+=======
+			console.log("Logging event: " + eventType + "("+this.inPosition + ", " + this.outPosition +")");
+>>>>>>> 43ab0b004555dc27d52b3ad103d7da8ad1646a6d
 			
 			new paella.Ajax(restEndpoint,{					
 					id:paella.player.videoIdentifier,
