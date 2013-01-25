@@ -149,6 +149,10 @@ new paella.plugins.userTrackingViewerPlugIn();
 
 
 
+paella.plugins.events.userTrackingCollector = {
+	logEvent:'userTrackingCollector:logEvent'
+};
+
 paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlugin,{
 	INTERVAL_LENGTH:5,
 	detailedLogging:false,
@@ -165,6 +169,8 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 				thisClass.detailedLogging = true;
 				thisClass.heartbeatTimer = new Timer(function(timer) {thisClass.addEvent('HEARTBEAT'); }, 30000);
 				thisClass.heartbeatTimer.repeat = true;
+				//--------------------------------------------------
+				$(window).resize(function(event) { thisClass.onResize(); });
 			}
 		},'',false,'GET');
 	},
@@ -174,7 +180,8 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 				paella.events.pause,
 				paella.events.seekTo,
 				paella.events.seekToTime,
-				paella.events.timeUpdate
+				paella.events.timeUpdate,
+				paella.plugins.events.userTrackingCollector
 		];
 	},
 	
@@ -184,18 +191,26 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 		switch (eventType) {
 			case paella.events.play:
 				this.addEvent('PLAY');
-				//this.startFootprintTimer();
 				break;
 			case paella.events.pause:
 				this.addEvent('PAUSE');
-				//this.pauseFootprintTimer();
 				break;
 			case paella.events.seekTo:
 			case paella.events.seekToTime:
-				this.addEvent('SEEK');			
+				this.addEvent('SEEK');
 				break;
 			case paella.events.timeUpdate:
 				this.onTimeUpdate();
+				break;
+			case paella.plugins.events.userTrackingCollector:
+				//document.fire(paella.plugins.events.userTrackingCollector, {profileName:profileName});
+				var eventName = params.eventName;
+				if (eventName != undefined) {
+					this.addEvent(eventName);
+				}
+				else {
+					console.log("Warning: eventName parameter nof found. Review your code");
+				}
 				break;
 		}
 	},
@@ -210,6 +225,12 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 	
 	getName:function() {
 		return "userTrackingCollectorPlugIn";
+	},
+	
+	onResize:function() {
+		var w = $(window);
+		var label = "RESIZE-TO-"+w.width()+"x"+w.height();
+		this.addEvent(label);
 	},
 	
 	onTimeUpdate:function() {
@@ -234,7 +255,7 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 			
 			var thisClass = this;
 			var restEndpoint = paella.player.config.restServer.url + "usertracking/"; 
-			console.log("Logging event: " + eventType + "("+this.inPosition + ", " + this.outPosition +")");
+			//console.log("Logging event: " + eventType + "("+this.inPosition + ", " + this.outPosition +")");
 			
 			new paella.Ajax(restEndpoint,{					
 					id:paella.player.videoIdentifier,
