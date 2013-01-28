@@ -32,6 +32,9 @@ paella.plugins.SerieEpisodesPlugin = Class.create(paella.RightBarPlugin,{
 		console.log("Getting Episodes from serie " + this.serieId);
 		var restEndpoint = paella.player.config.restServer.url + "search/episode.json"; 
 		new paella.Ajax(restEndpoint,{sid:this.serieId, limit:100, offset:0,_:new Date().getTime()}, function(response) {
+			if (typeof(response)=="string") {
+				response = JSON.parse(response);
+			}
 			results = response["search-results"];
 			thisClass.serie.numTotal = results.total;
 
@@ -51,6 +54,9 @@ paella.plugins.SerieEpisodesPlugin = Class.create(paella.RightBarPlugin,{
 		var thisClass = this		
 		var restEndpoint = paella.player.config.restServer.url +  'annotation/annotations.json'		
 		new paella.Ajax(restEndpoint,{episode:episode.id, type:"trim"}, function(response) {
+			if (typeof(response)=="string") {
+				response = JSON.parse(response);
+			}
 			published = response.annotations.annotation.value;
 			thisClass.appendEpisode(episode, published);			
 		});

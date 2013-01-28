@@ -45,6 +45,9 @@ paella.plugins.DescriptionPlugin  = Class.create(paella.TabBarPlugin,{
 		
 		var restEndpoint = paella.player.config.restServer.url + "usertracking/stats.json"; 
 		new paella.Ajax(restEndpoint,{id:paella.player.videoIdentifier}, function(response) {
+			if (typeof(response)=="string") {
+				response = JSON.parse(response);
+			}
 			thisClass.desc.views = response.stats.views;
 			thisClass.insertDescription();
 		},"",false);
