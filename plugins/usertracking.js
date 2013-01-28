@@ -160,8 +160,7 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 	outPosition:0,
 	heartbeatTimer:null,
 
-	initialize:function() {
-		this.parent();
+	initPlugin:function() {
 		var thisClass = this;
 		var restEndpoint = paella.player.config.restServer.url + "usertracking/detailenabled"; 		
 		new paella.Ajax(restEndpoint,{}, function(response) {
@@ -176,7 +175,8 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 	},
 	
 	getEvents:function() {
-		return [paella.events.play,
+		return [paella.events.loadComplete,
+				paella.events.play,
 				paella.events.pause,
 				paella.events.seekTo,
 				paella.events.seekToTime,
@@ -189,6 +189,9 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 		var currentTime = paella.player.videoContainer.currentTime();
 
 		switch (eventType) {
+			case paella.events.loadComplete:
+				this.initPlugin();
+				break;
 			case paella.events.play:
 				this.addEvent('PLAY');
 				break;

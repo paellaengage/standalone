@@ -90,23 +90,23 @@ paella.Ajax = Class.create({
 		var thisClass = this;
 		if (!method) method = 'get';
 		if (useJsonp) {
-            jQuery.ajax({url:url,type:method,dataType:'jsonp', jsonp:'jsonp', jsonpCallback:'callback', data:params,success:function(data) {
+            jQuery.ajax({url:url,type:method,dataType:'jsonp', jsonp:'jsonp', jsonpCallback:'callback', data:params}).done(function(data) {
 				console.log('using jsonp');
 				thisClass.callCallback(data);
-			}});
+			});
 		}
 		else if (proxyUrl && proxyUrl!="") {
 			params.url = url;
-			jQuery.ajax({url:proxyUrl,type:method,data:params,success:function(data) {
+			jQuery.ajax({url:proxyUrl,type:method,data:params}).done(function(data) {
 				console.log('using AJAX');
 				thisClass.callCallback(data);
-			}});
+			});
 		}
 		else {
-			jQuery.ajax({url:url,type:method,data:params,success:function(data) {
+			jQuery.ajax({url:url,type:method,data:params}).done(function(data) {
 				console.log('using AJAX whithout proxy');
 				thisClass.callCallback(data);
-			}});
+			});
 		}
 	},
 
@@ -2375,6 +2375,9 @@ var PaellaPlayer = Class.create(paella.PlayerBase,{
 	},
 
 	onLoadConfig:function(configData) {
+		if (typeof(configData)=="string") {
+			configData = JSON.parse(configData);
+		}
 		this.config = configData;
 		this.videoIdentifier = paella.utils.parameters.get('id');
 
