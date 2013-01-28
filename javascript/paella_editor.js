@@ -38,6 +38,9 @@ var mheditor = {
 			var parameters = {id:id,command:'getProperties'};
 			var proxyUrl = (config.proxyLoader.enabled) ? config.proxyLoader.url:'';
 			new paella.Ajax(config.trimming.url,parameters,function(result) {
+				if (typeof(result)=="string") {
+					result = JSON.parse(result);
+				}
 				onSuccess(result);
 			},proxyUrl);
 		},

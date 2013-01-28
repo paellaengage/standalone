@@ -90,22 +90,22 @@ paella.Ajax = Class.create({
 		var thisClass = this;
 		if (!method) method = 'get';
 		if (useJsonp) {
-            jQuery.ajax({url:url,type:method,dataType:'jsonp', jsonp:'jsonp', jsonpCallback:'callback', data:params}).done(function(data) {
+            jQuery.ajax({url:url,type:method,dataType:'jsonp', jsonp:'jsonp', jsonpCallback:'callback', data:params}).complete(function(data) {
 				console.log('using jsonp');
-				thisClass.callCallback(data);
+				thisClass.callCallback(data.responseText);
 			});
 		}
 		else if (proxyUrl && proxyUrl!="") {
 			params.url = url;
-			jQuery.ajax({url:proxyUrl,type:method,data:params}).done(function(data) {
+			jQuery.ajax({url:proxyUrl,type:method,data:params}).complete(function(data) {
 				console.log('using AJAX');
-				thisClass.callCallback(data);
+				thisClass.callCallback(data.responseText);
 			});
 		}
 		else {
-			jQuery.ajax({url:url,type:method,data:params}).done(function(data) {
+			jQuery.ajax({url:url,type:method,data:params}).complete(function(data) {
 				console.log('using AJAX whithout proxy');
-				thisClass.callCallback(data);
+				thisClass.callCallback(data.responseText);
 			});
 		}
 	},
@@ -351,6 +351,9 @@ paella.utils.UserRoleManager = Class.create({
 		var params = {};
 		var url = this.serverUrl + "info/me.json";
 		new paella.Ajax(url,params,function(data) {
+			if (typeof(data)=="string") {
+				data = JSON.parse(data);
+			}
 			paella.matterhorn.me = data;
 			onSuccess(data);
 		},this.proxyUrl,this.useJsonp)
@@ -361,6 +364,9 @@ paella.utils.UserRoleManager = Class.create({
 		var params = {}
 		var url = this.serverUrl + "search/series.json?id=" + id;
 		new paella.Ajax(url,params,function(data) {
+			if (typeof(data)=='string') {
+				data = JSON.parse(data);
+			}
 			var seriesId = data.dcIsPartOf;
 			if (data["search-results"] && data["search-results"].total && parseInt(data["search-results"].total)>0) {
 				paella.matterhorn.series.serie = data["search-results"].result;
@@ -369,6 +375,9 @@ paella.utils.UserRoleManager = Class.create({
 					var aclParams = {};
 					url = thisClass.serverUrl + "series/" + seriesId + "/acl.json";
 					new paella.Ajax(url,aclParams,function(result) {
+						if (typeof(result)=='string') {
+							result = JSON.parse(result);
+						}
 						onSuccess(result);
 					},thisClass.proxyUrl,thisClass.useJsonp);
 				}
@@ -407,6 +416,7 @@ paella.utils.MatterhornData = Class.create({
 
 		new paella.Ajax(episodesUrl,{id:id},function(data) {
 			var jsonData = data;
+			if (typeof(jsonData)=="string") jsonData = JSON.parse(jsonData);
 			
 			var result = jsonData['search-results'].result;
 			if (result) {
@@ -497,6 +507,9 @@ paella.utils.TrimData = Class.create({
 		var parameters = {episode:id,type:'trim'};
 		var trimServerUrl = this.serverUrl + "annotation/annotations.json";
 		new paella.Ajax(trimServerUrl,parameters,function(mhdata) {
+			if (typeof(mhdata)=="string") {
+				mhdata = JSON.parse(mhdata);
+			}
 			var data = {published:"true",trimStart:0,trimEnd:0}
 			if (mhdata.annotations && mhdata.annotations.total>0) {
 				data.published = mhdata.annotations.annotation.value;
@@ -516,6 +529,9 @@ paella.utils.TrimData = Class.create({
 		var videoDuration = paella.player.videoContainer.duration();
 		console.log("Requesting annotation id");
 		new paella.Ajax(trimServerUrl + "annotation/annotations.json",parameters,function(mhdata){
+			if (typeof(mhdata)=="string") {
+				mhdata = JSON.parse(mhdata);
+			}
 			var data = {episode:id,type:"trim",value:published,"in":trimStart,out:trimEnd};
 			if (mhdata.annotations.total==0) {
 				if (published=="unchanged") {
@@ -526,6 +542,9 @@ paella.utils.TrimData = Class.create({
 				else if (trimEnd<0) data["out"] = 0;
 				// Create annotation
 				new paella.Ajax(trimServerUrl + "annotation/",data,function(result) {
+					if (typeof(result)=="string") {
+						result = JSON.parse(result);
+					}
 					console.log("annotation saved");
 					$(document).trigger(paella.events.didSaveChanges);
 					if (onSuccess) {
@@ -543,9 +562,15 @@ paella.utils.TrimData = Class.create({
 				else if (trimEnd<0) data["out"] = mhdata.annotations.annotation.outpoint;
 				// Create annotation
 				new paella.Ajax(trimServerUrl + "annotation/" + annotationId,data,function(result) {
+					if (typeof(result)=="string") {
+						result = JSON.parse(result);
+					}
 					console.log("annotation with id=" + annotationId + " deleted");
 					// Create annotation
 					new paella.Ajax(trimServerUrl + "annotation/",data,function(result) {
+						if (typeof(result)=="string") {
+							result = JSON.parse(result);
+						}
 						console.log("new annotation saved: ");
 						console.log(data);
 						$(document).trigger(paella.events.didSaveChanges);
@@ -565,6 +590,9 @@ paella.Profiles = {
 		var params = {};
 
 		new paella.Ajax(url,params,function(data) {
+			if (typeof(data)=="string") {
+				data = JSON.parse(data);
+			}
 			onSuccessFunction(data[profileName]);
 		});
 	},
@@ -574,6 +602,9 @@ paella.Profiles = {
 		var params = {};
 
 		new paella.Ajax(url,params,function(data) {
+			if (typeof(data)=="string") {
+				data = JSON.parse(data);
+			}
 			onSuccessFunction(data);
 		});
 	}
@@ -2370,6 +2401,9 @@ var PaellaPlayer = Class.create(paella.PlayerBase,{
 		$(document).trigger(paella.events.loadStarted);
 
 		new paella.Ajax(configUrl,params,function(data) {
+			if (typeof(data)=="string") {
+				data = JSON.parse(data);
+			}
 			thisClass.onLoadConfig(data);
 		});
 	},
