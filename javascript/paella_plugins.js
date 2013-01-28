@@ -1533,13 +1533,14 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 			var restEndpoint = paella.player.config.restServer.url + "usertracking/"; 
 			//console.log("Logging event: " + eventType + "("+this.inPosition + ", " + this.outPosition +")");
 			
-			new paella.Ajax(restEndpoint,{					
+			new paella.Ajax(restEndpoint,{
+					_method: 'PUT',
 					id:paella.player.videoIdentifier,
 					type:eventType,
 					in:this.inPosition,
 					out:this.outPosition
 				}, function(response) {
-			},'',false,'PUT');			
+			},'',false,'GET');			
 		}
 	}
 	
