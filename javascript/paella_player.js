@@ -90,29 +90,34 @@ paella.Ajax = Class.create({
 		var thisClass = this;
 		if (!method) method = 'get';
 		if (useJsonp) {
-            jQuery.ajax({url:url,type:method,dataType:'jsonp', jsonp:'jsonp', jsonpCallback:'callback', data:params}).complete(function(data) {
+            jQuery.ajax({url:url,type:method,dataType:'jsonp', jsonp:'jsonp', jsonpCallback:'callback', data:params}).always(function(data) {
 				console.log('using jsonp');
-				thisClass.callCallback(data.responseText);
+				thisClass.callCallback(data);
 			});
 		}
 		else if (proxyUrl && proxyUrl!="") {
 			params.url = url;
-			jQuery.ajax({url:proxyUrl,type:method,data:params}).complete(function(data) {
+			jQuery.ajax({url:proxyUrl,type:method,data:params}).always(function(data) {
 				console.log('using AJAX');
-				thisClass.callCallback(data.responseText);
+				thisClass.callCallback(data);
 			});
 		}
 		else {
-			jQuery.ajax({url:url,type:method,data:params}).complete(function(data) {
+			jQuery.ajax({url:url,type:method,data:params}).always(function(data) {
 				console.log('using AJAX whithout proxy');
-				thisClass.callCallback(data.responseText);
+				thisClass.callCallback(data);
 			});
 		}
 	},
 
 	callCallback:function(data) {
 		if (this.callback) {
-			this.callback(data);
+			if (typeof(data)=="object" && data.responseText) {
+				this.callback(data.responseText);
+			}
+			else {
+				this.callback(data);
+			}
 		}
 	}
 });
