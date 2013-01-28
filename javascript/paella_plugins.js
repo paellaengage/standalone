@@ -975,7 +975,7 @@ paella.plugins.SerieEpisodesPlugin = Class.create(paella.RightBarPlugin,{
 		// Left Node
 		var thumbLink = new DomNode('a', this.id+"_"+episode.id+"_left_a");
 		thumbLink.domElement.target= "_blank";
-		thumbLink.domElement.href = "index_extended.html?id=" + episode.id;		
+		thumbLink.domElement.href = "?id=" + episode.id;		
 
 		var thumbImg = new DomNode('img', this.id+"_"+episode.id+"_left_img");
 		thumbImg.domElement.src = episode.preview;		
@@ -989,7 +989,7 @@ paella.plugins.SerieEpisodesPlugin = Class.create(paella.RightBarPlugin,{
 		var titleB = new DomNode('b', this.id+"_"+episode.id+"_right_title");
 		var titleLink = new DomNode('a', this.id+"_"+episode.id+"_left_a");
 		titleLink.domElement.target= "_blank";
-		titleLink.domElement.href = "index_extended.html?id=" + episode.id;		
+		titleLink.domElement.href = "?id=" + episode.id;		
 		
 		if (episode.isPublished === "undefined") {
 			titleLink.domElement.innerHTML = episode.title + " (PENDING)"
