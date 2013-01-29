@@ -21,6 +21,21 @@ var GlobalParams = {
 var paella = {};
 paella.player = null;
 
+paella.debug = {
+	init:false,
+	debug:false,
+
+	log:function(msg) {
+		if (!this.init) {
+			this.debug = paella.utils.parameters.get('debug')=='true';
+			this.init = true;
+		}
+		if (this.debug) {
+			console.log(msg);
+		}
+	}
+}
+
 paella.pluginList = [
 	'annotations.js',
 	'framecontrol.js',
@@ -91,20 +106,20 @@ paella.Ajax = Class.create({
 		if (!method) method = 'get';
 		if (useJsonp) {
             jQuery.ajax({url:url,type:method,dataType:'jsonp', jsonp:'jsonp', jsonpCallback:'callback', data:params}).always(function(data) {
-				console.log('using jsonp');
+				paella.debug.log('using jsonp');
 				thisClass.callCallback(data);
 			});
 		}
 		else if (proxyUrl && proxyUrl!="") {
 			params.url = url;
 			jQuery.ajax({url:proxyUrl,type:method,data:params}).always(function(data) {
-				console.log('using AJAX');
+				paella.debug.log('using AJAX');
 				thisClass.callCallback(data);
 			});
 		}
 		else {
 			jQuery.ajax({url:url,type:method,data:params}).always(function(data) {
-				console.log('using AJAX whithout proxy');
+				paella.debug.log('using AJAX whithout proxy');
 				thisClass.callCallback(data);
 			});
 		}
@@ -532,7 +547,7 @@ paella.utils.TrimData = Class.create({
 		var parameters = {episode:id,type:'trim'};
 		var trimServerUrl = this.serverUrl;
 		var videoDuration = paella.player.videoContainer.duration();
-		console.log("Requesting annotation id");
+		paella.debug.log("Requesting annotation id");
 		new paella.Ajax(trimServerUrl + "annotation/annotations.json",parameters,function(mhdata){
 			if (typeof(mhdata)=="string") {
 				mhdata = JSON.parse(mhdata);
@@ -550,7 +565,7 @@ paella.utils.TrimData = Class.create({
 					if (typeof(result)=="string") {
 						result = JSON.parse(result);
 					}
-					console.log("annotation saved");
+					paella.debug.log("annotation saved");
 					$(document).trigger(paella.events.didSaveChanges);
 					if (onSuccess) {
 						onSuccess();
@@ -570,14 +585,14 @@ paella.utils.TrimData = Class.create({
 					if (typeof(result)=="string") {
 						result = JSON.parse(result);
 					}
-					console.log("annotation with id=" + annotationId + " deleted");
+					paella.debug.log("annotation with id=" + annotationId + " deleted");
 					// Create annotation
 					new paella.Ajax(trimServerUrl + "annotation/",data,function(result) {
 						if (typeof(result)=="string") {
 							result = JSON.parse(result);
 						}
-						console.log("new annotation saved: ");
-						console.log(data);
+						paella.debug.log("new annotation saved: ");
+						paella.debug.log(data);
 						$(document).trigger(paella.events.didSaveChanges);
 						if (onSuccess) {
 							onSuccess();
@@ -833,11 +848,11 @@ paella.VideoContainerBase = Class.create(DomNode,{
 	},
 
 	play:function() {
-		console.log('VideoContainerBase.play()');
+		paella.debug.log('VideoContainerBase.play()');
 	},
 	
 	pause:function() {
-		console.log('VideoContainerBase.pause()');
+		paella.debug.log('VideoContainerBase.pause()');
 	},
 	
 	trimStart:function() {
@@ -862,43 +877,43 @@ paella.VideoContainerBase = Class.create(DomNode,{
 	},
 
 	setCurrentTime:function(time) {
-		console.log("VideoContainerBase.setCurrentTime(" +  time + ")");
+		paella.debug.log("VideoContainerBase.setCurrentTime(" +  time + ")");
 	},
 	
 	currentTime:function() {
-		console.log("VideoContainerBase.currentTime()");
+		paella.debug.log("VideoContainerBase.currentTime()");
 		return 0;
 	},
 	
 	duration:function() {
-		console.log("VideoContainerBase.duration()");
+		paella.debug.log("VideoContainerBase.duration()");
 		return 0
 	},
 	
 	paused:function() {
-		console.log("VideoContainerBase.paused()");
+		paella.debug.log("VideoContainerBase.paused()");
 		return true;
 	},
 	
 	setupVideo:function(onSuccess) {
-		console.log("VideoContainerBase.setupVide()");
+		paella.debug.log("VideoContainerBase.setupVide()");
 	},
 	
 	setPlaybackRate:function(params) {
-		console.log("VideoContainerBase.setPlaybackBase(" + params.rate + ")");
+		paella.debug.log("VideoContainerBase.setPlaybackBase(" + params.rate + ")");
 	},
 	
 	setVolume:function(params) {
-		console.log("VideoContainerBase.setVolume(" + params.master + ")");
+		paella.debug.log("VideoContainerBase.setVolume(" + params.master + ")");
 	},
 	
 	volume:function() {
-		console.log("VideoContainerBase.volume()");
+		paella.debug.log("VideoContainerBase.volume()");
 		return 1;
 	},
 	
 	isReady:function() {
-		console.log("VideoContainerBase.isReady()");
+		paella.debug.log("VideoContainerBase.isReady()");
 		return true;
 	},
 
@@ -971,7 +986,7 @@ var VideoContainer = Class.create(paella.VideoContainerBase,{
 			var diff = Math.abs(masterVideo.currentTime() - slaveVideo.currentTime());
 
 			if (diff>this.maxSyncDelay) {
-				console.log("Sync videos performed, diff=" + diff);
+				paella.debug.log("Sync videos performed, diff=" + diff);
 				slaveVideo.setCurrentTime(masterVideo.currentTime());
 			}
 		}
@@ -1260,7 +1275,7 @@ var VideoContainer = Class.create(paella.VideoContainerBase,{
 				minMasterDiff = masterDiff;
 				rectMaster = profileMaster;
 			}
-			//console.log(profileMasterAspectRatio + ' - ' + masterAspectRatio + ' = ' + masterDiff);
+			//paella.debug.log(profileMasterAspectRatio + ' - ' + masterAspectRatio + ' = ' + masterDiff);
 		}
 		
 		var minSlaveDiff = 10;
@@ -1370,7 +1385,7 @@ paella.PluginManager = Class.create({
 	loadPlugins:function() {
 		for (var i=0; i<this.pluginList.length; ++i) {
 			var plugin = this.pluginList[i];
-			console.log("loading plugin " + plugin.getName());
+			paella.debug.log("loading plugin " + plugin.getName());
 			plugin.load(this);
 		}
 	},
@@ -1430,7 +1445,7 @@ paella.PlaybackControlPlugin = Class.create(paella.Plugin,{
 	type:'playbackControl',
 
 	setLeftPosition:function() {
-		console.log("Warning: obsolete plugin style. The " + this.getName() + " plugin does not implement dynamic positioning. Please, consider to implement setLeftPosition() function.");
+		paella.debug.log("Warning: obsolete plugin style. The " + this.getName() + " plugin does not implement dynamic positioning. Please, consider to implement setLeftPosition() function.");
 	},
 
 	getRootNode:function(id) {
@@ -1454,7 +1469,7 @@ paella.PlaybackPopUpPlugin = Class.create(paella.Plugin,{
 	},
 	
 	setRightPosition:function() {
-		console.log("Warning: obsolete plugin style. The " + this.getName() + " plugin does not implement dynamic positioning. Please, consider to implement setRightPosition() function.");
+		paella.debug.log("Warning: obsolete plugin style. The " + this.getName() + " plugin does not implement dynamic positioning. Please, consider to implement setRightPosition() function.");
 	},
 
 	getPopUpContent:function(id) {
@@ -1797,7 +1812,7 @@ var PlaybackControl = Class.create(DomNode,{
 	},
 	
 	onresize:function() {
-		console.log("resize playback bar");
+		paella.debug.log("resize playback bar");
 		var windowSize = $(this.domElement).width();
 		this.playbackPluginsWidth = 0;
 		this.popupPluginsWidth = 0;
@@ -1917,7 +1932,7 @@ var ControlsContainer = Class.create(DomNode,{
 			$(document).trigger(paella.events.controlBarWillHide);
 		}
 		else {
-			console.log("Mobile version: controls will not hide");
+			paella.debug.log("Mobile version: controls will not hide");
 		}
 	},
 
@@ -2329,7 +2344,7 @@ paella.PlayerBase = Class.create({
 
 	initialize:function(playerId) {
 		if (!this.checkCompatibility()) {
-			console.log('Your browser is not compatible');
+			paella.debug.log('Your browser is not compatible');
 		}
 		else {
 			paella.player = this;
@@ -2348,7 +2363,7 @@ paella.PlayerBase = Class.create({
 			for (var i=0; i<devPluginsArray.length; i++) {
 				var jsFile = devPluginsArray[i];
 				var cssFile = jsFile.substr(0, jsFile.lastIndexOf(".")) + ".css";
-				console.log(devPluginsDir + jsFile + ", " + devPluginsDir + cssFile);
+				paella.debug.log(devPluginsDir + jsFile + ", " + devPluginsDir + cssFile);
 				paella.utils.require(devPluginsDir + jsFile);
 				paella.utils.importStylesheet(devPluginsDir + cssFile);
 			}
@@ -2442,7 +2457,7 @@ var PaellaPlayer = Class.create(paella.PlayerBase,{
 		var roleManager = new paella.utils.UserRoleManager(this.config);
 		roleManager.checkAccess(function(canRead,canContribute,canWrite,loadError,isAnonimous) {
 			if (!loadError) {
-				console.log("read:" + canRead + ", contribute:" + canContribute + ", write:" + canWrite);
+				paella.debug.log("read:" + canRead + ", contribute:" + canContribute + ", write:" + canWrite);
 				var unloadIfNotPublished = true;
 				if (canWrite) {
 					unloadIfNotPublished = false;
@@ -2580,7 +2595,7 @@ var PaellaPlayer = Class.create(paella.PlayerBase,{
 				var webm = videoElement.canPlayType('video/webm; codecs="vp8, vorbis"');
 				webm = (webm=='probably') || (webm=='maybe');
 				
-				console.log("Browser video capabilities: mp4=" + ((h264) ? 'yes':'no') + ', ogg=' + ((ogg) ? 'yes':'no') + ', webm=' + ((webm) ? 'yes':'no'));
+				paella.debug.log("Browser video capabilities: mp4=" + ((h264) ? 'yes':'no') + ', ogg=' + ((ogg) ? 'yes':'no') + ', webm=' + ((webm) ? 'yes':'no'));
 			
 				if (videoData.master.sources.mp4 && h264) status = true;
 				else if (videoData.master.sources.ogg && ogg) status = true;

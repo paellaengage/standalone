@@ -87,7 +87,7 @@ paella.plugins.userTrackingViewerPlugIn = Class.create(paella.PlaybackPopUpPlugi
 	
 	drawFootprints:function () {
 		if (sparklineLoaded == true)  {
-			console.log("ShowUserViewStats Plugin: sparkline loaded, drawing foot prints");			
+			paella.debug.log("ShowUserViewStats Plugin: sparkline loaded, drawing foot prints");			
 			$(this.container.domElement).sparkline(this.footprintData, {
 				type: 'line',
 				spotRadius: '0',
@@ -96,7 +96,7 @@ paella.plugins.userTrackingViewerPlugIn = Class.create(paella.PlaybackPopUpPlugi
 			});
 		}
 		else {
-			console.log("ShowUserViewStats Plugin: No sparkline loaded");
+			paella.debug.log("ShowUserViewStats Plugin: No sparkline loaded");
 		}
 	},
 	
@@ -212,7 +212,7 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 					this.addEvent(eventName);
 				}
 				else {
-					console.log("Warning: eventName parameter nof found. Review your code");
+					paella.debug.log("Warning: eventName parameter nof found. Review your code");
 				}
 				break;
 		}
@@ -258,7 +258,7 @@ paella.plugins.userTrackingCollectorPlugIn = Class.create(paella.EventDrivenPlug
 			
 			var thisClass = this;
 			var restEndpoint = paella.player.config.restServer.url + "usertracking/"; 
-			//console.log("Logging event: " + eventType + "("+this.inPosition + ", " + this.outPosition +")");
+			//paella.debug.log("Logging event: " + eventType + "("+this.inPosition + ", " + this.outPosition +")");
 			
 			new paella.Ajax(restEndpoint,{
 					_method: 'PUT',

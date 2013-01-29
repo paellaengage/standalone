@@ -78,7 +78,7 @@ paella.plugins.SearchPlugin  = Class.create(paella.TabBarPlugin,{
 		
 		var restEndpoint = paella.player.config.restServer.url + "search/episode.json"; 		
 		new paella.Ajax(restEndpoint,{id:paella.matterhorn.episode.id, q:value}, function(response) {
-			console.log("Searching id="+paella.matterhorn.episode.id+ " q=" + value);
+			paella.debug.log("Searching id="+paella.matterhorn.episode.id+ " q=" + value);
 			
 			thisClass.divResults.domElement.innerHTML='Results for "'+value+'" (no actual results for "'+value+'" found)'			
 			

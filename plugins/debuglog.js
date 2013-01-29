@@ -27,17 +27,17 @@ paella.plugins.DebugLog = Class.create(paella.EventDrivenPlugin,{
 	loadStarted:function() {
 		this.startTimestamp = new Date().getTime();
 		var userAgent = new UserAgent();
-		console.log("load started");
+		paella.debug.log("load started");
 
-		console.log("Operating system: " + userAgent.system.OSName + " " + userAgent.system.Version.stringValue);		
-		console.log("Browser: " + userAgent.browser.Name + " " + userAgent.browser.Version.versionString);
+		paella.debug.log("Operating system: " + userAgent.system.OSName + " " + userAgent.system.Version.stringValue);		
+		paella.debug.log("Browser: " + userAgent.browser.Name + " " + userAgent.browser.Version.versionString);
 	},
 
 	loadComplete:function() {
 		this.endTimestamp = new Date().getTime();
 		var userAgent = new UserAgent();
 		var loadTime = (this.endTimestamp - this.startTimestamp)/1000;
-		console.log("load complete. Total loading time: " + loadTime + " seconds");
+		paella.debug.log("load complete. Total loading time: " + loadTime + " seconds");
 		var os = userAgent.system.OSName;
 		var osVersion = userAgent.system.Version.stringValue;
 		var browser = userAgent.browser.Name;

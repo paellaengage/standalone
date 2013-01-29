@@ -5,7 +5,7 @@ var FrameThumbnail = Class.create(DomNode,{
 	frameContainer:null,
 
 	initialize:function(frameData,frameContainer) {
-		console.log('create frame thumbnail');
+		paella.debug.log('create frame thumbnail');
 		this.parent('img',frameData.id,{float:'left'});
 		this.domElement.className = 'frameThumbnail';
 		this.domElement.setAttribute('src',frameData.url);

@@ -302,7 +302,7 @@ mheditor.UIHSlider = Class.create(DomNode,{
 	},
 
 	onChange:function(newValue) {
-		console.log('new slider value: ' + newValue);
+		paella.debug.log('new slider value: ' + newValue);
 	}
 });
 
@@ -419,7 +419,7 @@ mheditor.Toolbar = Class.create(DomNode,{
 		$(document).bind(paella.events.play,function(event) { thisClass.onPlay(); });
 		$(document).bind(paella.events.pause,function(event) { thisClass.onPause(); });
 		$(document).bind(paella.events.showEditor,function(event) {
-			console.log("Loading cbox info");
+			paella.debug.log("Loading cbox info");
 			var trim = new paella.utils.TrimData(paella.player.config);
 			trim.load(paella.utils.parameters.get('id'),function(data) {
 				thisClass.onLoadTrimData(data);
@@ -430,13 +430,13 @@ mheditor.Toolbar = Class.create(DomNode,{
 	onComboBoxValueChanged:function(newValue) {
 		var trim = new paella.utils.TrimData(paella.player.config);
 		trim.save(paella.utils.parameters.get('id'),-1,-1,newValue,function() {
-			console.log("trim saved");
+			paella.debug.log("trim saved");
 		});
 	},
 
 	onLoadTrimData:function(data) {
-		console.log("Información de trim actual: ");
-		console.log(data);
+		paella.debug.log("Información de trim actual: ");
+		paella.debug.log(data);
 		var combo = this.publishCBox;
 		if (combo) {
 			if (data.published=="undefined") combo.setValue("undefined");
@@ -817,7 +817,7 @@ mheditor.PlaybackMark = Class.create(DomNode,{
 		$(document).bind(paella.events.timeupdate,function(event,params) { thisClass.onTimeUpdate(params); });
 		$(document).bind(mheditor.events.seek,function(event,params) { thisClass.onSeek(params); });
 
-		$(playbackMark.domElement).bind('mousedown',function(event) { console.log('down'); paella.utils.mouseManager.down(thisClass.timeline.movieContainer(),event); event.stopPropagation(); });
+		$(playbackMark.domElement).bind('mousedown',function(event) { paella.debug.log('down'); paella.utils.mouseManager.down(thisClass.timeline.movieContainer(),event); event.stopPropagation(); });
 		$(playbackMark.domElement).bind('mousemove',function(event) { paella.utils.mouseManager.move(event); });
 		$(playbackMark.domElement).bind('mouseup',function(event) { paella.utils.mouseManager.up(event); });
 	},

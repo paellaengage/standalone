@@ -29,7 +29,7 @@ paella.plugins.SerieEpisodesPlugin = Class.create(paella.RightBarPlugin,{
 	retrieveEpisodes:function() {
 		var thisClass = this
 		this.serieId = paella.matterhorn.series.serie.dcIsPartOf;
-		console.log("Getting Episodes from serie " + this.serieId);
+		paella.debug.log("Getting Episodes from serie " + this.serieId);
 		var restEndpoint = paella.player.config.restServer.url + "search/episode.json"; 
 		new paella.Ajax(restEndpoint,{sid:this.serieId, limit:100, offset:0,_:new Date().getTime()}, function(response) {
 			if (typeof(response)=="string") {
@@ -130,7 +130,7 @@ paella.plugins.SerieEpisodesPlugin = Class.create(paella.RightBarPlugin,{
 				this.showEpisode(i);
 			}
 			else{
-				console.log("Hide episode " + this.serie.episodes[i].id);
+				paella.debug.log("Hide episode " + this.serie.episodes[i].id);
 				
 			}
 		}		
