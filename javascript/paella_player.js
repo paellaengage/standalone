@@ -777,7 +777,7 @@ var Html5Video = Class.create(DomNode,{
 	},
 	
 	enableClassNameAfter:function(millis) {
-		setTimeout("$(#'" + this.domElement.id + "')[0].className = '" + this.classNameBackup + "'",millis);
+		setTimeout("$('#" + this.domElement.id + "')[0].className = '" + this.classNameBackup + "'",millis);
 	},
 	
 	setVisible:function(visible,animate) {
