@@ -2528,7 +2528,7 @@ var PaellaPlayer = Class.create(paella.PlayerBase,{
 	
 	setupEditor:function() {
 		if (paella.extended) return;
-		if (paella.utils.PaellaEditor) {
+		if (paella.utils.PaellaEditor && paella.player.config.editor && paella.player.config.editor) {
 			this.editor = new paella.utils.PaellaEditor('editor',this);
 			this.controls.showEditorButton();
 			this.mainContainer.appendChild(this.editor.domElement);

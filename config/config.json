@@ -11,6 +11,9 @@
 		"episodeXml":"search/episode.xml",
 		"episodeJson":"search/episode.json"
 	},
+	"editor":{
+		"enabled":true
+	},
 	"trimming":{
 		"enabled":false
 	},
