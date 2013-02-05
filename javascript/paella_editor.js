@@ -352,10 +352,10 @@ mheditor.UIComboBox = Class.create(DomNode,{
 		
 			container.appendChild(selectField);
 			$(selectField).bind('change',function(event) {
-				if (thisClass.onChange && $(thisClass.fieldId) && $(thisClass.fieldId).value) {
-					thisClass.onChange($(thisClass.fieldId).value);
+				if (thisClass.onChange && $(thisClass.fieldId)) {
+					thisClass.onChange($('#' + thisClass.fieldId).val());
 				}
-			});	
+			});
 		}
 	}
 });

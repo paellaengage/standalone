@@ -3,7 +3,6 @@ Paella Engage Player
 The Paella Engage Player is a multistream video player capable of playing multiple audio & video streams synchronously and supporting a number of user plugins. It is specially designed for lecture recordings, like Polimedia pills or Matterhorn Lectures.
 
 Main characteristics:
-
 - Multi stream video player
 - Completely based in HTML5 and Javascript
 - Can play audio from any of the two videos, mute any of them or mix both
