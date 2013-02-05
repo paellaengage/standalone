@@ -126,13 +126,16 @@ paella.Ajax = Class.create({
 	},
 
 	callCallback:function(data) {
-		if (this.callback) {
+		if (this.callback && data!=null) {
 			if (typeof(data)=="object" && data.responseText) {
 				this.callback(data.responseText);
 			}
 			else {
 				this.callback(data);
 			}
+		}
+		else if (this.callback) {
+			this.callback('{"result":"ok"}');
 		}
 	}
 });
